@@ -1,104 +1,105 @@
 import test from "tape";
-import { untab, $Collection } from "../index.js";
+import { untab, Collection } from "../index.js";
 
 test("htm: collection", (t) => {
-	const items = [
-		{ a: 1, b: 2 },
-		{ a: 3, b: 4 },
-		{ a: 5, b: 6 },
+	const data = [
+		{ first: "Waylon", last: "Jennings", born: 1937 },
+		{ first: "Willie", last: "Nelson", born: 1933 },
+		{ first: "Kris", last: "Kristofferson", born: 1936 },
+		{ first: "Johnny", last: "Cash", born: 1932 },
 	];
-	const collection = new $Collection(items);
 
-	const table = collection.table();
-	const expectedTable = untab(`
+	const highwaymen = new Collection(data);
+
+	const $list = highwaymen.list(["first", "last"]);
+	const $ul = highwaymen.ul("first");
+	const $ol = highwaymen.ol("born");
+	const $table = highwaymen.table();
+	const $listSeparated = highwaymen.list(["last", "first"], ", ");
+	const $listTemplated = highwaymen.list(
+		({ first, last, born }) => `${first} ${last}: ${born}`,
+	);
+
+	const list = untab(`
+		<ul>
+			<li>Waylon Jennings</li>
+			<li>Willie Nelson</li>
+			<li>Kris Kristofferson</li>
+			<li>Johnny Cash</li>
+		</ul>
+	`);
+	const ul = untab(`
+		<ul>
+			<li>Waylon</li>
+			<li>Willie</li>
+			<li>Kris</li>
+			<li>Johnny</li>
+		</ul>
+	`);
+	const ol = untab(`
+		<ol>
+			<li>1937</li>
+			<li>1933</li>
+			<li>1936</li>
+			<li>1932</li>
+		</ol>
+	`);
+	const table = untab(`
 		<table>
 			<thead>
 				<tr>
-					<th>a</th>
-					<th>b</th>
+					<th>first</th>
+					<th>last</th>
+					<th>born</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>1</td>
-					<td>2</td>
+					<td>Waylon</td>
+					<td>Jennings</td>
+					<td>1937</td>
 				</tr>
 				<tr>
-					<td>3</td>
-					<td>4</td>
+					<td>Willie</td>
+					<td>Nelson</td>
+					<td>1933</td>
 				</tr>
 				<tr>
-					<td>5</td>
-					<td>6</td>
+					<td>Kris</td>
+					<td>Kristofferson</td>
+					<td>1936</td>
+				</tr>
+				<tr>
+					<td>Johnny</td>
+					<td>Cash</td>
+					<td>1932</td>
 				</tr>
 			</tbody>
 		</table>
 	`);
-
-	t.equal(table, expectedTable, "created a table");
-
-	const ul = collection.ul("a");
-	const expectedUl = untab(`
+	const listSeparated = untab(`
 		<ul>
-			<li>1</li>
-			<li>3</li>
-			<li>5</li>
+			<li>Jennings, Waylon</li>
+			<li>Nelson, Willie</li>
+			<li>Kristofferson, Kris</li>
+			<li>Cash, Johnny</li>
+		</ul>
+	`);
+	const listTemplated = untab(`
+		<ul>
+			<li>Waylon Jennings: 1937</li>
+			<li>Willie Nelson: 1933</li>
+			<li>Kris Kristofferson: 1936</li>
+			<li>Johnny Cash: 1932</li>
 		</ul>
 	`);
 
-	t.equal(ul, expectedUl, "created a ul");
-
-	const ol = collection.ol("a");
-	const expectedOl = untab(`
-		<ol>
-			<li>1</li>
-			<li>3</li>
-			<li>5</li>
-		</ol>
-	`);
-
-	t.equal(ol, expectedOl, "created a ol");
-
-	const list = collection.list(["a", "b"]);
-	const expectedList = untab(`
-		<ul>
-			<li>1 2</li>
-			<li>3 4</li>
-			<li>5 6</li>
-		</ul>
-	`);
-
-	t.equal(list, expectedList, "created a list");
-
-	const listSeparated = collection.list(["a", "b"], " | ");
-	const expectedListSeparated = untab(`
-		<ul>
-			<li>1 | 2</li>
-			<li>3 | 4</li>
-			<li>5 | 6</li>
-		</ul>
-	`);
-
-	t.equal(
-		listSeparated,
-		expectedListSeparated,
-		"created a list with a custom separator",
-	);
-
-	const listTemplated = collection.list(({ a, b }) => `${a + b} | ${b - a}`);
-	const expectedListTemplated = untab(`
-		<ul>
-			<li>3 | 1</li>
-			<li>7 | 1</li>
-			<li>11 | 1</li>
-		</ul>
-	`);
-
-	t.equal(
-		listTemplated,
-		expectedListTemplated,
-		"created a list with a custom template",
-	);
+	t.equal($list, list, "list");
+	t.equal($ul, ul, "ul");
+	t.equal($ol, ol, "ol");
+	t.equal($table, table, "table");
+	t.equal($listSeparated, listSeparated, "listSeparated");
+	t.equal($listTemplated, listTemplated, "listTemplated");
 
 	t.end();
 });

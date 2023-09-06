@@ -4,7 +4,11 @@ export function untab(string) {
 
 const html = untab; // syntax highlighting
 
-export class $Collection {
+export class Item {}
+
+export class List {}
+
+export class Collection {
 	items;
 	likelyKeys;
 
