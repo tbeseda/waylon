@@ -1,9 +1,20 @@
+
+<h1 align="center">☣️ This is a prototype!</h1>
+<p align="center">
+  <strong>Don't go putting this into production.</strong><br>
+  <em>I'm a Ramblin' Man</em><br>
+  <br><br><br><br>
+  ...
+  <br><br><br><br>
+</p>
+
+
 <h1 align="center">Waylon 🌵</h1>
 
 <p align="center">
   HTML string helpers, particularly great in Node.js string template literals.<br>
   <em>Lonesome, On'ry, and Mean</em><br>
-  <a href="https://www.npmjs.com/package/waylon"><strong><code>npm i waylon</code> »</strong></a><br>
+  <a href="https://www.npmjs.com/package/waylon"><strong>waylon on npmjs.org »</strong></a><br>
   <br>
   Entities:
   <a href="#Item">Item</a>
@@ -28,11 +39,11 @@ npm i waylon
 
 ### Item
 
-wip...
+wip... Suggestions? File an issue.
 
 ### List
 
-wip...
+wip... Suggestions? File an issue.
 
 ### Collection
 
