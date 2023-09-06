@@ -67,26 +67,31 @@ const highwaymen = new Collection(data);
 ```js
 const $list = highwaymen.list(["first", "last"]);
 ```
+
 <ul><li>Waylon Jennings</li><li>Willie Nelson</li><li>Kris Kristofferson</li><li>Johnny Cash</li></ul>
 
 ```js
 const $ul = highwaymen.ul("first");
 ```
+
 <ul><li>Waylon</li><li>Willie</li><li>Kris</li><li>Johnny</li></ul>
 
 ```js
 const $ol = highwaymen.ol("born");
 ```
+
 <ol><li>1937</li><li>1933</li><li>1936</li><li>1932</li></ol>
 
 ```js
 const $table = highwaymen.table();
 ```
+
 <table><thead><tr><th>first</th><th>last</th><th>born</th></tr></thead><tbody><tr><td>Waylon</td><td>Jennings</td><td>1937</td></tr><tr><td>Willie</td><td>Nelson</td><td>1933</td></tr><tr><td>Kris</td><td>Kristofferson</td><td>1936</td></tr><tr><td>Johnny</td><td>Cash</td><td>1932</td></tr></tbody></table>
 
 ```js
 const $listSeparated = highwaymen.list(["last", "first"], ", ");
 ```
+
 <ul><li>Jennings, Waylon</li><li>Nelson, Willie</li><li>Kristofferson, Kris</li><li>Cash, Johnny</li></ul>
 
 ```js
@@ -94,10 +99,8 @@ const $listTemplated = highwaymen.list(
   ({ first, last, born }) => `${first} ${last}: ${born}`,
 );
 ```
+
 <ul><li>Waylon Jennings: 1937</li><li>Willie Nelson: 1933</li><li>Kris Kristofferson: 1936</li><li>Johnny Cash: 1932</li></ul>
-
-
-Also see `./test/collection-test.js`
 
 ## FAQ
 
@@ -110,6 +113,11 @@ Also, I was squatting the name on npmjs.org because I'm a big fan of Waylon Jenn
 
 </details>
 
----
-
-It's just strings. Plus, I've never been to Spain.
+<p align="center">
+  <br><br><br><br>
+  ...
+  <br><br><br><br>
+  <strong>It's just strings.</strong><br>
+  Plus, <em>I've never been to Spain.</em><br>
+</p>
+ 
