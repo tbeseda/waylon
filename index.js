@@ -4,21 +4,46 @@ export function untab(string) {
 
 const html = untab; // syntax highlighting
 
+class Haxy {
+	constructor() {
+		// biome-ignore:
+		return new Proxy(this, {
+			get(object, key, _proxy) {
+				if (key in object) {
+					return object[key];
+				} else {
+					// handle missing methods
+					return undefined;
+				}
+			},
+		});
+	}
+}
+
 export class Item {}
 
 export class List {}
 
-export class Collection {
+export class Collection extends Haxy {
 	items;
-	likelyKeys;
+	itemsKeys;
 
-	constructor(items) {
+	constructor(items, keys) {
+		super();
 		if (!Array.isArray(items)) throw new Error("items must be an array");
 		if (typeof items[0] !== "object")
 			throw new Error("items must be an array of objects");
 
 		this.items = items;
-		this.likelyKeys = Object.keys(items[0]);
+		this.itemsKeys = keys || Object.keys(items[0]);
+	}
+
+	#list(templateFn, tag) {
+		return html(`
+			<${tag}>
+				${this.items.map((item) => `<li>${templateFn(item)}</li>`).join("")}
+			</${tag}>
+		`);
 	}
 
 	/**
@@ -26,11 +51,7 @@ export class Collection {
 	 * @returns {string}
 	 */
 	ul(key) {
-		return html(`
-			<ul>
-				${this.items.map((item) => `<li>${item[key]}</li>`).join("")}
-			</ul>
-		`);
+		return this.#list((item) => item[key], "ul");
 	}
 
 	/**
@@ -38,16 +59,12 @@ export class Collection {
 	 * @returns {string}
 	 */
 	ol(key) {
-		return html(`
-			<ol>
-				${this.items.map((item) => `<li>${item[key]}</li>`).join("")}
-			</ol>
-		`);
+		return this.#list((item) => item[key], "ol");
 	}
 
 	/** @returns {string} HTML table */
 	table() {
-		const keys = this.likelyKeys;
+		const keys = this.itemsKeys;
 		return html(`
 			<table>
 				<thead>
@@ -83,10 +100,6 @@ export class Collection {
 			templateFn = (item) => keysOrFn.map((key) => item[key]).join(separator);
 		}
 
-		return html(`
-			<ul>
-				${this.items.map((item) => `<li>${templateFn(item)}</li>`).join("")}
-			</ul>
-		`);
+		return this.#list(templateFn, "ul");
 	}
 }
