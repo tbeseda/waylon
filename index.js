@@ -1,30 +1,56 @@
-export function untab(string) {
-	return string.replace(/>\s+</g, "><").trim();
+export function untab(ss, ...vs) {
+	let r = "";
+	ss.forEach((s, i) => {
+		r += `${s}${i === ss.length - 1 ? "" : vs[i]}`;
+	});
+	return r.replace(/>\s+</g, "><").trim();
 }
-
 const html = untab; // syntax highlighting
 
-class Haxy {
+class MethodTrap {
 	constructor() {
-		// biome-ignore:
-		return new Proxy(this, {
-			get(object, key, _proxy) {
-				if (key in object) {
-					return object[key];
-				} else {
-					// handle missing methods
-					return undefined;
+		const handlers = {
+			get(target, prop, receiver) {
+				if (Reflect.has(target, prop))
+					return Reflect.get(target, prop, receiver);
+				else {
+					return function (...args) {
+						return Reflect.get(target, "methodTrap").call(
+							receiver,
+							prop,
+							...args,
+						);
+					};
 				}
 			},
-		});
+		};
+
+		return new Proxy(this, handlers);
+	}
+
+	methodTrap(name) {
+		throw new Error(`Method ${name} not implemented`);
 	}
 }
 
-export class Item {}
+export class Item extends MethodTrap {
+	constructor(item) {
+		super();
+		if (typeof item !== "object" || Array.isArray(item))
+			throw new Error("item must be an object");
+	}
+}
 
-export class List {}
+export class List extends MethodTrap {
+	constructor(list) {
+		super();
+		if (!Array.isArray(list)) throw new Error("list must be an array");
+		if (typeof list[0] !== "string")
+			throw new Error("list must be an array of strings");
+	}
+}
 
-export class Collection extends Haxy {
+export class Collection extends MethodTrap {
 	items;
 	itemsKeys;
 
@@ -38,12 +64,17 @@ export class Collection extends Haxy {
 		this.itemsKeys = keys || Object.keys(items[0]);
 	}
 
+	methodTrap(name, ...args) {
+		console.log(`${name} called with`, args);
+		return "";
+	}
+
 	#list(templateFn, tag) {
-		return html(`
+		return html`
 			<${tag}>
 				${this.items.map((item) => `<li>${templateFn(item)}</li>`).join("")}
 			</${tag}>
-		`);
+		`;
 	}
 
 	/**
@@ -65,7 +96,7 @@ export class Collection extends Haxy {
 	/** @returns {string} HTML table */
 	table() {
 		const keys = this.itemsKeys;
-		return html(`
+		return html`
 			<table>
 				<thead>
 					<tr>
@@ -84,7 +115,7 @@ export class Collection extends Haxy {
 						.join("")}
 				</tbody>
 			</table>
-		`);
+		`;
 	}
 
 	/**

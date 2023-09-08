@@ -1,7 +1,21 @@
 import test from "tape";
-import { untab, Collection } from "../index.js";
+import { Collection, untab } from "../index.js";
+const html = untab; // syntax highlighting
 
-test("htm: collection", (t) => {
+test("waylon: Collection", (t) => {
+	try {
+		const wrong = new Collection("wrong");
+		t.fail("Collection can't be instantiated with a string");
+	} catch (error) {
+		t.pass("Collection can't be instantiated with a string");
+	}
+	try {
+		const wrong = new Collection({ thing: "wrong" });
+		t.fail("Collection can't be instantiated with an object");
+	} catch (error) {
+		t.pass("Collection can't be instantiated with an object");
+	}
+
 	const data = [
 		{ first: "Waylon", last: "Jennings", born: 1937 },
 		{ first: "Willie", last: "Nelson", born: 1933 },
@@ -20,31 +34,31 @@ test("htm: collection", (t) => {
 		({ first, last, born }) => `${first} ${last}: ${born}`,
 	);
 
-	const list = untab(`
+	const list = html`
 		<ul>
 			<li>Waylon Jennings</li>
 			<li>Willie Nelson</li>
 			<li>Kris Kristofferson</li>
 			<li>Johnny Cash</li>
 		</ul>
-	`);
-	const ul = untab(`
+	`;
+	const ul = html`
 		<ul>
 			<li>Waylon</li>
 			<li>Willie</li>
 			<li>Kris</li>
 			<li>Johnny</li>
 		</ul>
-	`);
-	const ol = untab(`
+	`;
+	const ol = html`
 		<ol>
 			<li>1937</li>
 			<li>1933</li>
 			<li>1936</li>
 			<li>1932</li>
 		</ol>
-	`);
-	const table = untab(`
+	`;
+	const table = html`
 		<table>
 			<thead>
 				<tr>
@@ -76,23 +90,23 @@ test("htm: collection", (t) => {
 				</tr>
 			</tbody>
 		</table>
-	`);
-	const listSeparated = untab(`
+	`;
+	const listSeparated = html`
 		<ul>
 			<li>Jennings, Waylon</li>
 			<li>Nelson, Willie</li>
 			<li>Kristofferson, Kris</li>
 			<li>Cash, Johnny</li>
 		</ul>
-	`);
-	const listTemplated = untab(`
+	`;
+	const listTemplated = html`
 		<ul>
 			<li>Waylon Jennings: 1937</li>
 			<li>Willie Nelson: 1933</li>
 			<li>Kris Kristofferson: 1936</li>
 			<li>Johnny Cash: 1932</li>
 		</ul>
-	`);
+	`;
 
 	t.equal($list, list, "list");
 	t.equal($ul, ul, "ul");
