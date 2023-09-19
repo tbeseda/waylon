@@ -20,5 +20,7 @@ test("waylon: List", (t) => {
 
 	const highwaymen = new List(data);
 
+	t.deepEqual(highwaymen.items, data, "List.list is the same as data");
+
 	t.end();
 });

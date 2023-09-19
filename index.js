@@ -34,34 +34,61 @@ class MethodTrap {
 }
 
 export class Item extends MethodTrap {
+	item;
+
 	constructor(item) {
 		super();
 		if (typeof item !== "object" || Array.isArray(item))
 			throw new Error("item must be an object");
+
+		this.item = item;
+	}
+
+	attrs(dict = this.item) {
+		return Object.entries(dict)
+			.filter(([_k, v]) => v !== undefined)
+			.map(([k, v]) => `${k}="${v}"`)
+			.join(" ");
+	}
+
+	link(href, text, target) {
+		return html`<a ${this.attrs({ href, target })}>${text}</a>`;
+	}
+
+	dataAttrs(dict = this.item) {
+		return this.attrs(
+			Object.fromEntries(
+				Object.entries(dict).map(([k, v]) => [`data-${k}`, v]),
+			),
+		);
 	}
 }
 
 export class List extends MethodTrap {
-	constructor(list) {
+	items;
+
+	constructor(items) {
 		super();
-		if (!Array.isArray(list)) throw new Error("list must be an array");
-		if (typeof list[0] !== "string")
+		if (!Array.isArray(items)) throw new Error("list must be an array");
+		if (typeof items[0] !== "string")
 			throw new Error("list must be an array of strings");
+
+		this.items = items;
 	}
 }
 
 export class Collection extends MethodTrap {
-	items;
-	itemsKeys;
+	entities;
+	entityKeys;
 
-	constructor(items, keys) {
+	constructor(entities, keys) {
 		super();
-		if (!Array.isArray(items)) throw new Error("items must be an array");
-		if (typeof items[0] !== "object")
+		if (!Array.isArray(entities)) throw new Error("items must be an array");
+		if (typeof entities[0] !== "object")
 			throw new Error("items must be an array of objects");
 
-		this.items = items;
-		this.itemsKeys = keys || Object.keys(items[0]);
+		this.entities = entities;
+		this.entityKeys = keys || Object.keys(entities[0]);
 	}
 
 	methodTrap(name, ...args) {
@@ -72,7 +99,7 @@ export class Collection extends MethodTrap {
 	#list(templateFn, tag) {
 		return html`
 			<${tag}>
-				${this.items.map((item) => `<li>${templateFn(item)}</li>`).join("")}
+				${this.entities.map((item) => `<li>${templateFn(item)}</li>`).join("")}
 			</${tag}>
 		`;
 	}
@@ -95,7 +122,7 @@ export class Collection extends MethodTrap {
 
 	/** @returns {string} HTML table */
 	table() {
-		const keys = this.itemsKeys;
+		const keys = this.entityKeys;
 		return html`
 			<table>
 				<thead>
@@ -104,7 +131,7 @@ export class Collection extends MethodTrap {
 					</tr>
 				</thead>
 				<tbody>
-					${this.items
+					${this.entities
 						.map(
 							(item) => `
 						<tr>

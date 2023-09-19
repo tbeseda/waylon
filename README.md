@@ -39,11 +39,39 @@ npm i waylon
 
 ### Item
 
-wip... Suggestions? File an issue.
+When you've got a single object: `Item`
+
+```js
+import { Item } from "waylon";
+
+const data = { first: "Kris", last: "Kristofferson", born: 1936 };
+
+const kris = new Item(data);
+```
+
+```js
+const $link = kris.link("https://en.wikipedia.org/wiki/Kris_Kristofferson", data.first);
+```
+
+> <a href="https://en.wikipedia.org/wiki/Kris_Kristofferson">Kris</a>
+
+```js
+const dataAttrs = kris.dataAttrs();
+```
+
+> data-first="Kris" data-last="Kristofferson" data-born="1936"
+
+```js
+const attrs = kris.attrs();
+```
+
+> first="Kris" last="Kristofferson" born="1936"
+
+Suggestions? File an issue.
 
 ### List
 
-wip... Suggestions? File an issue.
+Suggestions? File an issue.
 
 ### Collection
 

@@ -108,6 +108,16 @@ test("waylon: Collection", (t) => {
 		</ul>
 	`;
 
+	t.deepEqual(
+		highwaymen.entities,
+		data,
+		"Collection.items is the same as data",
+	);
+	t.deepEqual(
+		highwaymen.entityKeys,
+		Object.keys(data[0]),
+		"Collection.entityKeys is the same as Object.keys(data[0])",
+	);
 	t.equal($list, list, "list");
 	t.equal($ul, ul, "ul");
 	t.equal($ol, ol, "ol");
