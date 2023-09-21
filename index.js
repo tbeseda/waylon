@@ -160,4 +160,24 @@ export class Collection extends MethodTrap {
 
 		return this.#list(templateFn, "ul");
 	}
+
+	/**
+	 * experimental series renderer
+	 * @param {string} tag tag name like 'div' or 'span'
+	 * @param {(item: Item) => string} tagFn opening tag content template function
+	 * @param {(item: Item) => string} templateFn tag content template function
+	 * @returns {string} HTML content
+	 */
+	render(tag, tagFn, templateFn) {
+		return html`
+			${this.entities.map((i) => {
+				const item = new Item(i);
+				return html`
+					<${tag} ${tagFn(item)}>
+						${templateFn(item)}
+					</${tag}>
+				`}
+			).join("")}
+		`;
+	}
 }

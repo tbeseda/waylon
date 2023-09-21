@@ -1,10 +1,12 @@
 
-<h1 align="center">☣️ This is a prototype!</h1>
+<h2 align="center">☣️ This is a prototype!</h2>
 <p align="center">
   <strong>Don't go putting this into production.</strong><br>
-  <em>I'm a Ramblin' Man</em><br>
+  I'm not super keen on the API yet. Breaking changes will be minors and everything else is a patch.<br>
+  Until v1. Then I'll keep a CHANGELOG and stick to proper semver.<br>
   <br><br><br><br>
-  ...
+  <em>I'm a Ramblin' Man</em><br>
+  <hr>
   <br><br><br><br>
 </p>
 
