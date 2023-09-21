@@ -23,6 +23,7 @@ test("waylon: Item", (t) => {
 	};
 
 	const waylon = new Item(data);
+	const {i: waylonItem} = waylon;
 
 	const $link = waylon.link("/Waylon-Jennings", "Waylon");
 	const $link_blank = waylon.link(
@@ -32,13 +33,13 @@ test("waylon: Item", (t) => {
 	);
 	const dataAttrs = waylon.dataAttrs();
 	const customDataAttrs = waylon.dataAttrs({
-		"first-name": waylon.item.first,
-		"last-name": waylon.item.last,
+		"first-name": waylonItem.first,
+		"last-name": waylonItem.last,
 	});
 	const attrs = waylon.attrs();
 	const customAttrs = waylon.attrs({
-		"first-name": waylon.item.first,
-		"last-name": waylon.item.last,
+		"first-name": waylonItem.first,
+		"last-name": waylonItem.last,
 	});
 
 	const link = html`<a href="/Waylon-Jennings">Waylon</a>`;
@@ -48,7 +49,7 @@ test("waylon: Item", (t) => {
 	const attrsString = `first="Waylon" last="Jennings" born="1937"`;
 	const customAttrsString = `first-name="Waylon" last-name="Jennings"`;
 
-	t.deepEqual(waylon.item, data, "Item.item is the same as data");
+	t.deepEqual(waylonItem, data, "Item.i is the same as data");
 	t.equal($link, link, "link");
 	t.equal($link_blank, link_blank, "link with target");
 	t.equal(dataAttrs, dataAttrsString, "data attrs");

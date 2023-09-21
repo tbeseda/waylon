@@ -34,17 +34,17 @@ class MethodTrap {
 }
 
 export class Item extends MethodTrap {
-	item;
+	i;
 
 	constructor(item) {
 		super();
 		if (typeof item !== "object" || Array.isArray(item))
 			throw new Error("item must be an object");
 
-		this.item = item;
+		this.i = item;
 	}
 
-	attrs(dict = this.item) {
+	attrs(dict = this.i) {
 		return Object.entries(dict)
 			.filter(([_k, v]) => v !== undefined)
 			.map(([k, v]) => `${k}="${v}"`)
@@ -55,7 +55,7 @@ export class Item extends MethodTrap {
 		return html`<a ${this.attrs({ href, target })}>${text}</a>`;
 	}
 
-	dataAttrs(dict = this.item) {
+	dataAttrs(dict = this.i) {
 		return this.attrs(
 			Object.fromEntries(
 				Object.entries(dict).map(([k, v]) => [`data-${k}`, v]),
