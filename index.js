@@ -69,9 +69,9 @@ export class List extends MethodTrap {
 
 	constructor(items) {
 		super();
-		if (!Array.isArray(items)) throw new Error("list must be an array");
-		if (typeof items[0] !== "string")
-			throw new Error("list must be an array of strings");
+		if (!Array.isArray(items)) throw new Error("items must be an array");
+		if (items.length > 0 && typeof items[0] !== "string")
+			throw new Error("items must be an array of strings");
 
 		this.items = items;
 	}
@@ -83,12 +83,12 @@ export class Collection extends MethodTrap {
 
 	constructor(entities, keys) {
 		super();
-		if (!Array.isArray(entities)) throw new Error("items must be an array");
-		if (typeof entities[0] !== "object")
-			throw new Error("items must be an array of objects");
+		if (!Array.isArray(entities)) throw new Error("collection must be an array");
+		if (entities.length > 0 && typeof entities[0] !== "object")
+			throw new Error("collection must be an array of objects");
 
 		this.entities = entities;
-		this.entityKeys = keys || Object.keys(entities[0]);
+		this.entityKeys = keys || entities.length > 0 ? Object.keys(entities[0]) : [];
 	}
 
 	methodTrap(name, ...args) {

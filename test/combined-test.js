@@ -2,7 +2,7 @@ import test from "tape";
 import { Collection, Item, List, untab } from "../index.js";
 const html = untab; // syntax highlighting
 
-test("waylon: Collection", (t) => {
+test("waylon: combined Collection, List, and Item", (t) => {
 	const data = [
 		{ first: "Waylon", last: "Jennings", born: 1937 },
 		{ first: "Willie", last: "Nelson", born: 1933 },

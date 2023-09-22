@@ -3,18 +3,10 @@ import { Item, untab } from "../index.js";
 const html = untab; // syntax highlighting
 
 test("waylon: Item", (t) => {
-	try {
-		const wrong = new Item("wrong");
-		t.fail("Item can't be instantiated with a string");
-	} catch (error) {
-		t.pass("Item can't be instantiated with a string");
-	}
-	try {
-		const wrong = new Item(["wrong"]);
-		t.fail("Item can't be instantiated with an array");
-	} catch (error) {
-		t.pass("Item can't be instantiated with an array");
-	}
+	t.throws(() => new Item(), "Item can't be instantiated without an argument");
+	t.throws(() => new Item("wrong"), "Item can't be instantiated with a string");
+	t.throws(() => new Item([]), "Item can't be instantiated with an array");
+	t.doesNotThrow(() => new Item({}), "Item can be instantiated with an empty object");
 
 	const data = {
 		first: "Waylon",

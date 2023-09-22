@@ -3,18 +3,10 @@ import { Collection, untab } from "../index.js";
 const html = untab; // syntax highlighting
 
 test("waylon: Collection", (t) => {
-	try {
-		const wrong = new Collection("wrong");
-		t.fail("Collection can't be instantiated with a string");
-	} catch (error) {
-		t.pass("Collection can't be instantiated with a string");
-	}
-	try {
-		const wrong = new Collection({ thing: "wrong" });
-		t.fail("Collection can't be instantiated with an object");
-	} catch (error) {
-		t.pass("Collection can't be instantiated with an object");
-	}
+	t.throws(() => new Collection(), "Collection can't be instantiated without an argument");
+	t.throws(() => new Collection({foo: "bar"}), "Collection can't be instantiated with object");
+	t.throws(() => new Collection("wrong"), "Collection can't be instantiated with a boolean");
+	t.doesNotThrow(() => new Collection([]), "Collection can be instantiated with an empty array");
 
 	const data = [
 		{ first: "Waylon", last: "Jennings", born: 1937 },
