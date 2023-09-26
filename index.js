@@ -11,15 +11,10 @@ class MethodTrap {
 	constructor() {
 		const handlers = {
 			get(target, prop, receiver) {
-				if (Reflect.has(target, prop))
-					return Reflect.get(target, prop, receiver);
+				if (Reflect.has(target, prop)) return Reflect.get(target, prop, receiver);
 				else {
 					return function (...args) {
-						return Reflect.get(target, "methodTrap").call(
-							receiver,
-							prop,
-							...args,
-						);
+						return Reflect.get(target, "methodTrap").call(receiver, prop, ...args);
 					};
 				}
 			},
@@ -38,8 +33,7 @@ export class Item extends MethodTrap {
 
 	constructor(item) {
 		super();
-		if (typeof item !== "object" || Array.isArray(item))
-			throw new Error("item must be an object");
+		if (typeof item !== "object" || Array.isArray(item)) throw new Error("item must be an object");
 
 		this.i = item;
 	}
@@ -56,11 +50,7 @@ export class Item extends MethodTrap {
 	}
 
 	dataAttrs(dict = this.i) {
-		return this.attrs(
-			Object.fromEntries(
-				Object.entries(dict).map(([k, v]) => [`data-${k}`, v]),
-			),
-		);
+		return this.attrs(Object.fromEntries(Object.entries(dict).map(([k, v]) => [`data-${k}`, v])));
 	}
 }
 
@@ -170,14 +160,16 @@ export class Collection extends MethodTrap {
 	 */
 	render(tag, tagFn, templateFn) {
 		return html`
-			${this.entities.map((i) => {
-				const item = new Item(i);
-				return html`
-					<${tag} ${tagFn(item)}>
-						${templateFn(item)}
-					</${tag}>
-				`}
-			).join("")}
+			${this.entities
+				.map((i) => {
+					const item = new Item(i);
+					return html`
+						<${tag} ${tagFn(item)}>
+							${templateFn(item)}
+						</${tag}>
+					`;
+				})
+				.join("")}
 		`;
 	}
 }

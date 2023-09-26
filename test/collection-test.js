@@ -4,7 +4,7 @@ const html = untab; // syntax highlighting
 
 test("waylon: Collection", (t) => {
 	t.throws(() => new Collection(), "Collection can't be instantiated without an argument");
-	t.throws(() => new Collection({foo: "bar"}), "Collection can't be instantiated with object");
+	t.throws(() => new Collection({ foo: "bar" }), "Collection can't be instantiated with object");
 	t.throws(() => new Collection("wrong"), "Collection can't be instantiated with a boolean");
 	t.doesNotThrow(() => new Collection([]), "Collection can be instantiated with an empty array");
 
@@ -22,9 +22,7 @@ test("waylon: Collection", (t) => {
 	const $ol = highwaymen.ol("born");
 	const $table = highwaymen.table();
 	const $listSeparated = highwaymen.list(["last", "first"], ", ");
-	const $listTemplated = highwaymen.list(
-		({ first, last, born }) => `${first} ${last}: ${born}`,
-	);
+	const $listTemplated = highwaymen.list(({ first, last, born }) => `${first} ${last}: ${born}`);
 
 	const list = html`
 		<ul>
@@ -100,11 +98,7 @@ test("waylon: Collection", (t) => {
 		</ul>
 	`;
 
-	t.deepEqual(
-		highwaymen.entities,
-		data,
-		"Collection.items is the same as data",
-	);
+	t.deepEqual(highwaymen.entities, data, "Collection.items is the same as data");
 	t.deepEqual(
 		highwaymen.entityKeys,
 		Object.keys(data[0]),

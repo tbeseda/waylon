@@ -15,7 +15,7 @@ test("waylon: Item", (t) => {
 	};
 
 	const waylon = new Item(data);
-	const {i: waylonItem} = waylon;
+	const { i: waylonItem } = waylon;
 
 	const $link = waylon.link("/Waylon-Jennings", "Waylon");
 	const $link_blank = waylon.link(
