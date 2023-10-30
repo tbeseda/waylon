@@ -1,115 +1,115 @@
-import test from "tape";
-import { Collection, untab } from "../index.js";
-const html = untab; // syntax highlighting
+import test from 'tape'
+import { Collection, untab } from '../index.js'
+const html = untab // syntax highlighting
 
-test("waylon: Collection", (t) => {
-	t.throws(() => new Collection(), "Collection can't be instantiated without an argument");
-	t.throws(() => new Collection({ foo: "bar" }), "Collection can't be instantiated with object");
-	t.throws(() => new Collection("wrong"), "Collection can't be instantiated with a boolean");
-	t.doesNotThrow(() => new Collection([]), "Collection can be instantiated with an empty array");
+test('waylon: Collection', (t) => {
+  t.throws(() => new Collection(), "Collection can't be instantiated without an argument")
+  t.throws(() => new Collection({ foo: 'bar' }), "Collection can't be instantiated with object")
+  t.throws(() => new Collection('wrong'), "Collection can't be instantiated with a boolean")
+  t.doesNotThrow(() => new Collection([]), 'Collection can be instantiated with an empty array')
 
-	const data = [
-		{ first: "Waylon", last: "Jennings", born: 1937 },
-		{ first: "Willie", last: "Nelson", born: 1933 },
-		{ first: "Kris", last: "Kristofferson", born: 1936 },
-		{ first: "Johnny", last: "Cash", born: 1932 },
-	];
+  const data = [
+    { first: 'Waylon', last: 'Jennings', born: 1937 },
+    { first: 'Willie', last: 'Nelson', born: 1933 },
+    { first: 'Kris', last: 'Kristofferson', born: 1936 },
+    { first: 'Johnny', last: 'Cash', born: 1932 },
+  ]
 
-	const highwaymen = new Collection(data);
+  const highwaymen = new Collection(data)
 
-	const $list = highwaymen.list(["first", "last"]);
-	const $ul = highwaymen.ul("first");
-	const $ol = highwaymen.ol("born");
-	const $table = highwaymen.table();
-	const $listSeparated = highwaymen.list(["last", "first"], ", ");
-	const $listTemplated = highwaymen.list(({ first, last, born }) => `${first} ${last}: ${born}`);
+  const $list = highwaymen.list(['first', 'last'])
+  const $ul = highwaymen.ul('first')
+  const $ol = highwaymen.ol('born')
+  const $table = highwaymen.table()
+  const $listSeparated = highwaymen.list(['last', 'first'], ', ')
+  const $listTemplated = highwaymen.list(({ first, last, born }) => `${first} ${last}: ${born}`)
 
-	const list = html`
-		<ul>
-			<li>Waylon Jennings</li>
-			<li>Willie Nelson</li>
-			<li>Kris Kristofferson</li>
-			<li>Johnny Cash</li>
-		</ul>
-	`;
-	const ul = html`
-		<ul>
-			<li>Waylon</li>
-			<li>Willie</li>
-			<li>Kris</li>
-			<li>Johnny</li>
-		</ul>
-	`;
-	const ol = html`
-		<ol>
-			<li>1937</li>
-			<li>1933</li>
-			<li>1936</li>
-			<li>1932</li>
-		</ol>
-	`;
-	const table = html`
-		<table>
-			<thead>
-				<tr>
-					<th>first</th>
-					<th>last</th>
-					<th>born</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Waylon</td>
-					<td>Jennings</td>
-					<td>1937</td>
-				</tr>
-				<tr>
-					<td>Willie</td>
-					<td>Nelson</td>
-					<td>1933</td>
-				</tr>
-				<tr>
-					<td>Kris</td>
-					<td>Kristofferson</td>
-					<td>1936</td>
-				</tr>
-				<tr>
-					<td>Johnny</td>
-					<td>Cash</td>
-					<td>1932</td>
-				</tr>
-			</tbody>
-		</table>
-	`;
-	const listSeparated = html`
-		<ul>
-			<li>Jennings, Waylon</li>
-			<li>Nelson, Willie</li>
-			<li>Kristofferson, Kris</li>
-			<li>Cash, Johnny</li>
-		</ul>
-	`;
-	const listTemplated = html`
-		<ul>
-			<li>Waylon Jennings: 1937</li>
-			<li>Willie Nelson: 1933</li>
-			<li>Kris Kristofferson: 1936</li>
-			<li>Johnny Cash: 1932</li>
-		</ul>
-	`;
+  const list = html`
+    <ul>
+      <li>Waylon Jennings</li>
+      <li>Willie Nelson</li>
+      <li>Kris Kristofferson</li>
+      <li>Johnny Cash</li>
+    </ul>
+  `
+  const ul = html`
+    <ul>
+      <li>Waylon</li>
+      <li>Willie</li>
+      <li>Kris</li>
+      <li>Johnny</li>
+    </ul>
+  `
+  const ol = html`
+    <ol>
+      <li>1937</li>
+      <li>1933</li>
+      <li>1936</li>
+      <li>1932</li>
+    </ol>
+  `
+  const table = html`
+    <table>
+      <thead>
+        <tr>
+          <th>first</th>
+          <th>last</th>
+          <th>born</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Waylon</td>
+          <td>Jennings</td>
+          <td>1937</td>
+        </tr>
+        <tr>
+          <td>Willie</td>
+          <td>Nelson</td>
+          <td>1933</td>
+        </tr>
+        <tr>
+          <td>Kris</td>
+          <td>Kristofferson</td>
+          <td>1936</td>
+        </tr>
+        <tr>
+          <td>Johnny</td>
+          <td>Cash</td>
+          <td>1932</td>
+        </tr>
+      </tbody>
+    </table>
+  `
+  const listSeparated = html`
+    <ul>
+      <li>Jennings, Waylon</li>
+      <li>Nelson, Willie</li>
+      <li>Kristofferson, Kris</li>
+      <li>Cash, Johnny</li>
+    </ul>
+  `
+  const listTemplated = html`
+    <ul>
+      <li>Waylon Jennings: 1937</li>
+      <li>Willie Nelson: 1933</li>
+      <li>Kris Kristofferson: 1936</li>
+      <li>Johnny Cash: 1932</li>
+    </ul>
+  `
 
-	t.deepEqual(highwaymen.entities, data, "Collection.items is the same as data");
-	t.deepEqual(
-		highwaymen.entityKeys,
-		Object.keys(data[0]),
-		"Collection.entityKeys is the same as Object.keys(data[0])",
-	);
-	t.equal($list, list, "list");
-	t.equal($ul, ul, "ul");
-	t.equal($ol, ol, "ol");
-	t.equal($table, table, "table");
-	t.equal($listSeparated, listSeparated, "listSeparated");
-	t.equal($listTemplated, listTemplated, "listTemplated");
+  t.deepEqual(highwaymen.entities, data, 'Collection.items is the same as data')
+  t.deepEqual(
+    highwaymen.entityKeys,
+    Object.keys(data[0]),
+    'Collection.entityKeys is the same as Object.keys(data[0])',
+  )
+  t.equal($list, list, 'list')
+  t.equal($ul, ul, 'ul')
+  t.equal($ol, ol, 'ol')
+  t.equal($table, table, 'table')
+  t.equal($listSeparated, listSeparated, 'listSeparated')
+  t.equal($listTemplated, listTemplated, 'listTemplated')
 
-	t.end();
-});
+  t.end()
+})
