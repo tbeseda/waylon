@@ -41,7 +41,7 @@ export class Item extends MethodTrap {
   attrs (dict = this.i) {
     return Object.entries(dict)
       .filter(([_k, v]) => v !== undefined)
-      .map(([k, v]) => `${k}="${v}"`)
+      .map(([k, v]) => `${k}="${v instanceof Date ? this.presentDate(v) : v}"`)
       .join(' ')
   }
 
@@ -50,7 +50,17 @@ export class Item extends MethodTrap {
   }
 
   dataAttrs (dict = this.i) {
-    return this.attrs(Object.fromEntries(Object.entries(dict).map(([k, v]) => [`data-${k}`, v])))
+    return this.attrs(
+      Object.fromEntries(
+        Object.entries(dict).map(([k, v]) =>
+          [`data-${k}`, v instanceof Date ? this.presentDate(v) : v]
+        ),
+      ),
+    )
+  }
+
+  presentDate (date) {
+    return date.toLocaleDateString()
   }
 }
 
